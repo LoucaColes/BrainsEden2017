@@ -20,7 +20,9 @@ public class PlayerAiming : MonoBehaviour
     {
         RaycastHit t_hit;
 
-        if (Physics.Raycast(m_rayPoint.position, Vector3.forward, out t_hit))
+        Vector3 t_dir = m_rayPoint.forward;
+
+        if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit))
         {
             if (t_hit.collider.tag == "Player")
             {
@@ -34,6 +36,6 @@ public class PlayerAiming : MonoBehaviour
             Debug.DrawLine(m_rayPoint.position, m_testPlayer.position, Color.red);
         }
 
-        Debug.DrawRay(m_rayPoint.position, Vector3.forward * m_rayDistance, Color.green);
+        Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
     }
 }
