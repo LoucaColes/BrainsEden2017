@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAiming : MonoBehaviour
 {
     private Transform m_rayPoint;
+    private Transform m_testPlayer;
 
     public float m_rayDistance;
 
@@ -17,21 +18,22 @@ public class PlayerAiming : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float t_rx = Input.GetAxis("Horizontal");
-        float t_ry = Input.GetAxis("Vertical");
-
-        Vector3 t_dir = new Vector3(t_rx, 0, t_ry);
-
         RaycastHit t_hit;
 
-        if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit))
+        if (Physics.Raycast(m_rayPoint.position, Vector3.forward, out t_hit))
         {
             if (t_hit.collider.tag == "Player")
             {
                 print("Player Hit");
+                m_testPlayer = t_hit.collider.transform;
             }
         }
 
-        Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
+        if (m_testPlayer)
+        {
+            Debug.DrawLine(m_rayPoint.position, m_testPlayer.position, Color.red);
+        }
+
+        Debug.DrawRay(m_rayPoint.position, Vector3.forward * m_rayDistance, Color.green);
     }
 }
