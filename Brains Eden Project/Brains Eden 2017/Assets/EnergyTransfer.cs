@@ -18,13 +18,19 @@ public class EnergyTransfer : MonoBehaviour {
 		// random fluctuation ???
 	}
 
-    public void drainFrom(EnergyContainer other)
+    public void drainFrom(EnergyContainer other, float strength)
     {
-
+        if (other.changeEnergy(-strength))
+        {
+            linkedContainer.changeEnergy(strength);
+        }
     }
 
-    public void pushTo(EnergyContainer other)
+    public void pushTo(EnergyContainer other, float strength)
     {
-
+        if (other.changeEnergy(strength))
+        {
+            linkedContainer.changeEnergy(-strength);
+        }
     }
 }

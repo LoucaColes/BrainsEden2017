@@ -29,21 +29,29 @@ public class PlayerAiming : MonoBehaviour
         {
             m_bezierTime = 0;
         }
-        RaycastHit t_hit;
 
         Vector3 t_dir = m_rayPoint.forward;
-
-        if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit))
+        if (Input.GetKey(KeyCode.Space))
         {
-            if (t_hit.collider.tag == "Player")
-            {
-                print("Player Hit");
-                m_testPlayer = t_hit.collider.transform;
-            }
+            print(GetTarget());
+            ActivateBezier();
+        }
+        else
+        {
+            m_particle.transform.position = m_rayPoint.position;
         }
 
-        if (m_testPlayer)
+        Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
+    }
+
+    public void ActivateBezier()
+    {
+        Vector3 t_dir = m_rayPoint.forward;
+
+        if (GetTarget() != null)
         {
+            m_testPlayer = GetTarget().transform;
+
             if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) > m_rayDistance)
             {
                 m_testPlayer = null;
@@ -59,8 +67,23 @@ public class PlayerAiming : MonoBehaviour
         {
             m_particle.transform.position = m_rayPoint.position;
         }
+    }
 
-        Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
+    public GameObject GetTarget()
+    {
+        RaycastHit t_hit;
+        Vector3 t_dir = m_rayPoint.forward;
+
+        if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit))
+        {
+            if (t_hit.collider.tag == "Player")
+            {
+                print("Player Hit");
+                m_testPlayer = t_hit.collider.transform;
+                return m_testPlayer.gameObject;
+            }
+        }
+        return null;
     }
 
     private Vector3 Bezier(Vector3 _initPoint, Vector3 _midPoint, Vector3 _endPoint, float _time)

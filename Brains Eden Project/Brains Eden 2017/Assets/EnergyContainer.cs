@@ -21,19 +21,22 @@ public class EnergyContainer : MonoBehaviour {
 
     }
 
-    void changeEnergy(float change)
+    public bool changeEnergy(float change)
     {
         energy += change;
         if (energy <= 0.0f)
         {
             energy = 0.0f;
             energyEmpty();
+            return false;
         }
         if (energy >= maxEnergy)
         {
             energy = maxEnergy;
             energyFull();
+            return false;
         }
+        return true;
 
     }
 
