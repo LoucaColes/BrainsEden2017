@@ -6,7 +6,7 @@ public class Movment : MonoBehaviour {
   
     private Rigidbody RB;
     public float speed;
-    public int Cont;
+    public int ControllerNum;
 
     private void Start()
     {
@@ -15,12 +15,23 @@ public class Movment : MonoBehaviour {
 
     private void Update()
     {
-         RB.AddForce(new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical")) *Time.deltaTime*(speed*100));
-        float t_rx = Input.GetAxis("RHorizontal"+Cont);
-        float t_ry = Input.GetAxis("RVertical"+Cont);
+         RB.AddForce(new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical")) *Time.deltaTime*(speed*10));
+        float t_rx = Input.GetAxis("RHorizontal"+ ControllerNum);
+        float t_ry = Input.GetAxis("RVertical"+ ControllerNum);
 
-        transform.LookAt(transform.position + new Vector3(t_rx, 0,-t_ry));
+        transform.LookAt(transform.position + new Vector3(t_rx, 0, -t_ry));
+
+        //if (Input.GetJoystickNames()[ControllerNum].Contains("Xbox One"))
+        //{
+        //    Debug.Log((Input.GetAxis("RTrigger" + ControllerNum)+1)/2);
+        //}
       
+      
+      
+    }
+    public void setSpeed(float m_speed)
+    {
+        speed = m_speed;
     }
 
 }
