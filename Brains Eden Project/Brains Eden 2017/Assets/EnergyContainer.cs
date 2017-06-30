@@ -16,6 +16,11 @@ public class EnergyContainer : MonoBehaviour {
 
     }
 
+    protected virtual void Update()
+    {
+
+    }
+
     void changeEnergy(float change)
     {
         energy += change;
