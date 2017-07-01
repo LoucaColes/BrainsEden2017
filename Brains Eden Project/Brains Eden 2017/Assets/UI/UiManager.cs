@@ -8,8 +8,6 @@ public class UiManager : MonoBehaviour
 
     [SerializeField]
     public GameManager m_GM;
-    public GameObject[] m_GmPlayer;
-    public EnergyContainer[] m_Ec;
 
     public Image[] m_ImageBar;
 
@@ -17,24 +15,19 @@ public class UiManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (m_GmPlayer != null)
-            m_GmPlayer = m_GM.Players;
-        else
-            print("No Players");
-
-        for(int i = 0;i<m_GmPlayer.Length;i++)
-        {
-            m_Ec[i] = m_GmPlayer[i].GetComponent<EnergyContainer>();
-        }
+       // m_ImageBar = new Image[4];
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        for (int i = 0; i < m_Ec.Length; i++)
+        for (int i = 0; i < m_GM.Players.Length; i++)
         {
-            m_ImageBar[i].GetComponent<UiBar>().SetHealthBar(m_Ec[i].energy, m_Ec[i].maxEnergy);
+            if (m_GM.Players[i] != null)
+            {
+                m_ImageBar[i].GetComponent<UiBar>().SetHealthBar(m_GM.Players[i].GetComponent<EnergyContainer>().energy,
+                                                                m_GM.Players[i].GetComponent<EnergyContainer>().maxEnergy);
+            }
         }
     }
 }
