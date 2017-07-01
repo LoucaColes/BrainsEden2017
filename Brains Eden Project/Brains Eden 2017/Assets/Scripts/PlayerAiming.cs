@@ -33,21 +33,15 @@ public class PlayerAiming : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        m_bezierTime += 0.1f;
-        if (m_bezierTime >= 1)
-        {
-            m_bezierTime = 0;
-        }
-
         Vector3 t_dir = m_rayPoint.forward;
         if (Input.GetKey(KeyCode.Space))
         {
             print(GetTarget());
-            ActivateBezier(false);
+            ActivateBezier(false, 0.5f);
         }
         else if (Input.GetKey(KeyCode.KeypadEnter))
         {
-            ActivateBezier(true);
+            ActivateBezier(true, 0.1f);
         }
         else
         {
@@ -57,9 +51,15 @@ public class PlayerAiming : MonoBehaviour
         Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
     }
 
-    public void ActivateBezier(bool _reverse)
+    public void ActivateBezier(bool _reverse, float _strength)
     {
         Vector3 t_dir = m_rayPoint.forward;
+
+        m_bezierTime += (_strength / 10f);
+        if (m_bezierTime >= 1)
+        {
+            m_bezierTime = 0;
+        }
 
         if (GetTarget() != null)
         {
