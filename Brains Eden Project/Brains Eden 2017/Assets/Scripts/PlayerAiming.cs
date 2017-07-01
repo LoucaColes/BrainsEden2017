@@ -34,7 +34,11 @@ public class PlayerAiming : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             print(GetTarget());
-            ActivateBezier();
+            ActivateBezier(false);
+        }
+        else if (Input.GetKey(KeyCode.KeypadEnter))
+        {
+            ActivateBezier(true);
         }
         else
         {
@@ -44,7 +48,7 @@ public class PlayerAiming : MonoBehaviour
         Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
     }
 
-    public void ActivateBezier()
+    public void ActivateBezier(bool _reverse)
     {
         Vector3 t_dir = m_rayPoint.forward;
 
@@ -59,7 +63,14 @@ public class PlayerAiming : MonoBehaviour
             else
             {
                 Vector3 t_midPoint = m_rayPoint.position + (t_dir * m_rayDistance);
-                m_particle.transform.position = Bezier(m_rayPoint.position, t_midPoint, m_testPlayer.position, m_bezierTime);
+                if (_reverse)
+                {
+                    m_particle.transform.position = Bezier(m_testPlayer.position, t_midPoint, m_rayPoint.position, m_bezierTime);
+                }
+                else
+                {
+                    m_particle.transform.position = Bezier(m_rayPoint.position, t_midPoint, m_testPlayer.position, m_bezierTime);
+                }
                 Debug.DrawLine(t_midPoint, m_testPlayer.position, Color.red);
             }
         }
