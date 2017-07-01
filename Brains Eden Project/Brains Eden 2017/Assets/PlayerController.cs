@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnergyTransfer))]
 [RequireComponent(typeof(EnergyContainerPlayer))]
 [RequireComponent(typeof(Movment))]
+[RequireComponent(typeof(PlayerAiming))]
 public class PlayerController : MonoBehaviour {
 
     [SerializeField]
@@ -42,12 +43,13 @@ public class PlayerController : MonoBehaviour {
 
         if (pullTrigger > 0 || pushTrigger > 0)
         {
-            GameObject other = null;
+            GameObject other = GetComponent<PlayerAiming>().GetTarget();
 
             if (other != null)
             {
-                GetComponent<EnergyTransfer>().pushTo(other.GetComponent<EnergyContainer>(), pushTrigger);
-                GetComponent<EnergyTransfer>().drainFrom(other.GetComponent<EnergyContainer>(), pullTrigger);
+                GetComponent<EnergyTransfer>().pushTo(other.transform.parent.GetComponent<EnergyContainer>(), pushTrigger);
+                GetComponent<EnergyTransfer>().drainFrom(other.transform.parent.GetComponent<EnergyContainer>(), pullTrigger);
+                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger/*, Mathf.Abs(pushTrigger - pullTrigger)*/);
             }
         }
     }
