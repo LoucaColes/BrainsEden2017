@@ -16,7 +16,7 @@ public class Movment : MonoBehaviour {
     private void Update()
     {
         // RB.AddForce(new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical")) *Time.deltaTime*(speed*10));
-        transform.position+= new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Time.deltaTime * (speed/10);
+        transform.position += new Vector3(Input.GetAxis("Horizontal" + ControllerNum), 0, Input.GetAxis("Vertical" + ControllerNum)) * Time.deltaTime * (speed/10);
 
         float t_rx = Input.GetAxis("RHorizontal"+ ControllerNum);
         float t_ry = Input.GetAxis("RVertical"+ ControllerNum);
