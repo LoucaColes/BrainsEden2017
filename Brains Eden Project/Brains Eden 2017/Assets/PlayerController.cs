@@ -12,12 +12,29 @@ public class PlayerController : MonoBehaviour {
     public int playerNumber = 0;
     // 0 = faulty, players = 1-4
 
+    public Color playerColor;
     private float pushTrigger;
     private float pullTrigger;
 
 	// Use this for initialization
 	void Start () {
         GetComponent<Movment>().ControllerNum = playerNumber;
+        switch(playerNumber)
+        {
+            case 1:
+                playerColor = Color.red;
+                break;
+            case 2:
+                playerColor = Color.green;
+                break;
+            case 3:
+                playerColor = Color.red;
+                break;
+            case 4:
+                playerColor = Color.red;
+                break;
+        }
+        
 	}
 	
 	// Update is called once per frame

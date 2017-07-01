@@ -29,7 +29,7 @@ public class EnergyContainerPlayer : EnergyContainer {
     {
         //Explode
         alive = false;
-        Instantiate(sparksParticle);
+        //Instantiate(sparksParticle);
         StartCoroutine(explosionAnimation());
     }
 
@@ -43,7 +43,7 @@ public class EnergyContainerPlayer : EnergyContainer {
     IEnumerator explosionAnimation()
     {
         yield return new WaitForSeconds(1.0f);
-        Instantiate(explosionParticle);
+        //Instantiate(explosionParticle);
         yield return new WaitForSeconds(1.0f);
         Destroy(this.gameObject);
         yield return null;
