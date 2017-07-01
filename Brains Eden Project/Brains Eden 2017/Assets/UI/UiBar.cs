@@ -20,22 +20,35 @@ public class UiBar : MonoBehaviour
     }
 
 
-
-  
-
-
-    void Decreacebar(float _dec)
+    void Update()
     {
-        m_current -= _dec;
-        SetBar(m_current / m_Max);
+
+        Decreacebar();
+        
+    }
+
+   void SetHealthBar(float _health)
+    {
+        m_current = _health;
+        Decreacebar();
+    }
+
+
+    void Decreacebar()
+    {
+        //m_current -= _dec;
+        float m_Val = m_current / m_Max;
+        SetBar(m_Val);
     }
 
     void SetBar(float _amount)
     {
         if(_amount > 1 || _amount < 0)
         {
+            print("reurn");
             return;
         }
-        m_bar.fillAmount = m_current;
+        print(_amount);
+        m_bar.fillAmount = _amount;
     }
 }
