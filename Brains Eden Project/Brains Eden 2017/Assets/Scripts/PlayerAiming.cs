@@ -8,7 +8,8 @@ public class PlayerAiming : MonoBehaviour
     private Transform m_testPlayer;
 
     private Collider m_colliderRadius;
-    public GameObject m_particle;
+    [SerializeField]
+    public GameObject[] m_particle;
     private GameObject m_currParticle;
 
     public float m_rayDistance;
@@ -18,6 +19,7 @@ public class PlayerAiming : MonoBehaviour
     private int m_layerMask;
 
     private float m_bezierTime;
+    private int PlayerNum;
 
     // Use this for initialization
     private void Start()
@@ -28,6 +30,7 @@ public class PlayerAiming : MonoBehaviour
         m_layerMask = 1 << 12;
         m_layerMask = ~m_layerMask;
         m_bezierTime = 0;
+        PlayerNum = GetComponent<PlayerController>().playerNumber;
     }
 
     // Update is called once per frame
@@ -42,7 +45,7 @@ public class PlayerAiming : MonoBehaviour
         Vector3 t_dir = m_rayPoint.forward;
         if (m_bezierTime == 0 && m_currParticle == null)
         {
-            m_currParticle = (GameObject)Instantiate(m_particle, m_rayPoint.position, Quaternion.identity);
+            m_currParticle = (GameObject)Instantiate(m_particle[PlayerNum], m_rayPoint.position, Quaternion.identity);
         }
         m_bezierTime += (_strength / 20.0f);
         if (m_bezierTime >= 1)
