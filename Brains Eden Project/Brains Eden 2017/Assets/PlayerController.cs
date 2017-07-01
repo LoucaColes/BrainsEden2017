@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if (Input.GetJoystickNames()[playerNumber].Contains("Xbox One"))
+        if (Input.GetJoystickNames()[playerNumber-1].Contains("Xbox One"))
         {
             pushTrigger = (Input.GetAxis("RTrigger" + playerNumber)+1)/2;
         }
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
             pushTrigger = Input.GetAxis("RTrigger" + playerNumber);
         }
 
-        if (Input.GetJoystickNames()[playerNumber].Contains("Xbox One"))
+        if (Input.GetJoystickNames()[playerNumber-1].Contains("Xbox One"))
         {
             pullTrigger = (Input.GetAxis("LTrigger" + playerNumber) + 1) / 2;
         }
@@ -47,9 +47,19 @@ public class PlayerController : MonoBehaviour {
 
             if (other != null)
             {
-                GetComponent<EnergyTransfer>().pushTo(other.transform.parent.GetComponent<EnergyContainer>(), pushTrigger);
-                GetComponent<EnergyTransfer>().drainFrom(other.transform.parent.GetComponent<EnergyContainer>(), pullTrigger);
-                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger/*, Mathf.Abs(pushTrigger - pullTrigger)*/);
+                if (other.transform.parent != null)
+                {
+                    GetComponent<EnergyTransfer>().pushTo(other.transform.parent.GetComponent<EnergyContainer>(), pushTrigger / 5);
+                    GetComponent<EnergyTransfer>().drainFrom(other.transform.parent.GetComponent<EnergyContainer>(), pullTrigger / 5);
+                }
+                else
+                {
+                    GetComponent<EnergyTransfer>().pushTo(other.GetComponent<EnergyContainer>(), pushTrigger / 5);
+                    GetComponent<EnergyTransfer>().drainFrom(other.GetComponent<EnergyContainer>(), pullTrigger / 5);
+                }
+               
+                
+                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
             }
         }
     }
