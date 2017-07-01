@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: f746908d236f608489327e702b58a5f3
-timeCreated: 1498852750
+guid: 0bad5036a2d660b41953e638d9016e9b
+timeCreated: 1498897419
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Pyramid001
-    100004: Pyramid002
-    400000: //RootNode
-    400002: Pyramid001
-    400004: Pyramid002
-    2300000: Pyramid001
-    2300002: Pyramid002
-    3300000: Pyramid001
-    3300002: Pyramid002
-    4300000: Pyramid001
-    4300002: Pyramid002
+    100000: Box001
+    100002: //RootNode
+    100004: Sphere001
+    400000: Box001
+    400002: //RootNode
+    400004: Sphere001
+    2300000: Box001
+    2300002: Sphere001
+    3300000: Box001
+    3300002: Sphere001
+    4300000: Box001
+    4300002: Sphere001
     9500000: //RootNode
   materials:
     importMaterials: 1
