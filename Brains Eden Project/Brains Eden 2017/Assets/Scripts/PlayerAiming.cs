@@ -42,6 +42,7 @@ public class PlayerAiming : MonoBehaviour
 
     public void ActivateBezier(bool _reverse, float _strength)
     {
+        RaycastHit t_hit;
         Vector3 t_dir = m_rayPoint.forward;
         if (m_bezierTime == 0 && m_currParticle == null)
         {
@@ -54,9 +55,9 @@ public class PlayerAiming : MonoBehaviour
             destroyParticle();
         }
 
-        if (GetTarget() != null)
+        if (GetTarget(out t_hit) != null)
         {
-            m_testPlayer = GetTarget().transform;
+            m_testPlayer = GetTarget(out t_hit).transform;
 
             if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) > m_rayDistance)
             {
@@ -65,7 +66,7 @@ public class PlayerAiming : MonoBehaviour
             }
             else
             {
-                Vector3 t_midPoint = m_rayPoint.position + (t_dir * m_rayDistance);
+                Vector3 t_midPoint = t_hit.point; //m_rayPoint.position + (t_dir * m_rayDistance);
                 if (_reverse)
                 {
                     if (m_currParticle)
@@ -89,9 +90,9 @@ public class PlayerAiming : MonoBehaviour
         }
     }
 
-    public GameObject GetTarget()
+    public GameObject GetTarget(out RaycastHit t_hit)
     {
-        RaycastHit t_hit;
+        //RaycastHit t_hit;
         Vector3 t_dir = m_rayPoint.forward;
 
         if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit, m_rayDistance, m_layerMask))
