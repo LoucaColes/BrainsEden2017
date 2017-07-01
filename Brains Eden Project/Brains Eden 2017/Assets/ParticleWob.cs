@@ -5,6 +5,7 @@ using UnityEngine;
 public class ParticleWob : MonoBehaviour {
     private Vector3 Scale;
     private bool Incress = false;
+    public Vector3 wobSpeed;
 	void Update () {
         if (transform.localScale.x >= 1)
         {
@@ -17,11 +18,11 @@ public class ParticleWob : MonoBehaviour {
 
         if (Incress)
         {
-            transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+            transform.localScale += wobSpeed;
         }
         else
         {
-            transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
+            transform.localScale -= wobSpeed;
         }
 	}
 }

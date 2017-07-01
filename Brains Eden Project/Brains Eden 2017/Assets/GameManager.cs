@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     public GameState state = GameState.Selection;
 
     public GameObject[] Players;
+    public Transform[] PlayersStartingPoints;
     protected bool[] playersReady;
 
     public int maxPlayers;
@@ -52,21 +53,40 @@ public class GameManager : MonoBehaviour {
 
     void UpdateSelection()
     {
-        for (int i = 0; i < Mathf.Min(maxPlayers, Input.GetJoystickNames().Length); i++)
+        for (int i = 1; i <= Mathf.Min(maxPlayers, Input.GetJoystickNames().Length); i++)
         {
-            if (Input.GetButtonDown("joystick " + i + " button 0") )
+            if (Input.GetKeyDown((KeyCode)System.Enum.Parse(typeof(KeyCode), "Joystick"+i+"Button0")))
             {
-                if (Players[i] == null)
+                if (Players[i-1] == null)
                 {
-                    Players[i] = Instantiate(PlayerPrefab);
+                    Players[i-1] = Instantiate(PlayerPrefab);
+                    Players[i - 1].transform.position = PlayersStartingPoints[i - 1].position;
+                    Players[i - 1].transform.rotation = PlayersStartingPoints[i - 1].rotation;
+                    Players[i - 1].GetComponent<PlayerController>().playerNumber = i;
                 }
                 else
                 {
                     //Set ready
-                    playersReady[i] = !playersReady[i];
+                    playersReady[i-1] = !playersReady[i-1];
                 }
             }
         }
+
+        int readyNum = 0;
+        int currPlayers = 0;
+        for (int i = 1; i <= Mathf.Min(maxPlayers, Input.GetJoystickNames().Length); i++)
+        {
+            if (Players[i] != null)
+            {
+                currPlayers++;
+                if (playersReady[i])
+                {
+                    readyNum++;
+                }
+            }
+        }
+
+
     }
 
     void UpdateGame()

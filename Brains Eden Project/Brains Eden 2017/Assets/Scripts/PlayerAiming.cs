@@ -9,6 +9,7 @@ public class PlayerAiming : MonoBehaviour
 
     private Collider m_colliderRadius;
     public GameObject m_particle;
+    private GameObject m_currParticle;
 
     public float m_rayDistance;
     public float m_speed;
@@ -27,7 +28,6 @@ public class PlayerAiming : MonoBehaviour
         m_layerMask = 1 << 12;
         m_layerMask = ~m_layerMask;
         m_bezierTime = 0;
-        m_particle.transform.position = m_rayPoint.position;
     }
 
     // Update is called once per frame
@@ -44,7 +44,7 @@ public class PlayerAiming : MonoBehaviour
         }
         else
         {
-            m_particle.transform.position = m_rayPoint.position;
+            destroyParticle();
         }
 
         Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
@@ -53,11 +53,15 @@ public class PlayerAiming : MonoBehaviour
     public void ActivateBezier(bool _reverse, float _strength)
     {
         Vector3 t_dir = m_rayPoint.forward;
-
+        if (m_bezierTime == 0)
+        {
+            m_currParticle = (GameObject)Instantiate(m_particle, m_rayPoint.position, Quaternion.identity);
+        }
         m_bezierTime += (_strength / 10f);
         if (m_bezierTime >= 1)
         {
             m_bezierTime = 0;
+            destroyParticle();
         }
 
         if (GetTarget() != null)
@@ -67,25 +71,31 @@ public class PlayerAiming : MonoBehaviour
             if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) > m_rayDistance)
             {
                 m_testPlayer = null;
-                m_particle.transform.position = m_rayPoint.position;
+                destroyParticle();
             }
             else
             {
                 Vector3 t_midPoint = m_rayPoint.position + (t_dir * m_rayDistance);
                 if (_reverse)
                 {
-                    m_particle.transform.position = Bezier(m_testPlayer.position, t_midPoint, m_rayPoint.position, m_bezierTime);
+                    if (m_currParticle)
+                    {
+                        m_currParticle.transform.position = Bezier(m_testPlayer.position, t_midPoint, m_rayPoint.position, m_bezierTime);
+                    }
                 }
                 else
                 {
-                    m_particle.transform.position = Bezier(m_rayPoint.position, t_midPoint, m_testPlayer.position, m_bezierTime);
+                    if (m_currParticle)
+                    {
+                        m_currParticle.transform.position = Bezier(m_rayPoint.position, t_midPoint, m_testPlayer.position, m_bezierTime);
+                    }
                 }
                 Debug.DrawLine(t_midPoint, m_testPlayer.position, Color.red);
             }
         }
         else
         {
-            m_particle.transform.position = m_rayPoint.position;
+            destroyParticle();
         }
     }
 
@@ -96,13 +106,21 @@ public class PlayerAiming : MonoBehaviour
 
         if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit, m_rayDistance, m_layerMask))
         {
-
             if (t_hit.collider.tag == "ColRadius")
             {
                 m_testPlayer = t_hit.collider.transform;
-                if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) < m_rayDistance)
+
+                RaycastHit t_wallCheck;
+                Ray t_wallRay = new Ray(m_rayPoint.position, t_dir);
+                float t_wallDist = Vector3.Distance(m_rayPoint.position, m_testPlayer.position);
+                int t_wallMask = 1 << 12;
+
+                if (!Physics.Raycast(t_wallRay, out t_wallCheck, t_wallDist, t_wallMask))
                 {
-                    return m_testPlayer.gameObject;
+                    if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) < m_rayDistance)
+                    {
+                        return m_testPlayer.gameObject;
+                    }
                 }
             }
         }
@@ -116,5 +134,19 @@ public class PlayerAiming : MonoBehaviour
         t_bezierTime.y = _initPoint.y;
         t_bezierTime.z = Mathf.Pow(1 - _time, 2) * _initPoint.z + (1 - _time) * 2 * _time * _midPoint.z + _time * _time * _endPoint.z;
         return t_bezierTime;
+    }
+
+    private void destroyParticle()
+    {
+        foreach (Transform Child in m_currParticle.transform)
+        {
+            if (Child.gameObject.tag == "DontDie")
+            {
+                Child.parent = null;
+                Child.gameObject.GetComponent<SelfDestruct>().deathTimerStart();
+            }
+        }
+        Destroy(m_currParticle);
+        m_currParticle = null;
     }
 }
