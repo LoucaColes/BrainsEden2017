@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnergyTransfer))]
 public class EnergyContainerPlayer : EnergyContainer {
 
-    bool alive;
+    bool alive = true;
 
     [SerializeField]
     protected GameObject batteryPack;
@@ -30,9 +30,13 @@ public class EnergyContainerPlayer : EnergyContainer {
 
     protected override void energyFull()
     {
+        if (!alive)
+            return;
         //Explode
         alive = false;
-        //Instantiate(sparksParticle);
+        GameObject part = Instantiate(sparksParticle);
+        Destroy(part, 4.0f);
+        part.transform.position = transform.position;
         StartCoroutine(explosionAnimation());
     }
 
@@ -47,7 +51,7 @@ public class EnergyContainerPlayer : EnergyContainer {
     {
         yield return new WaitForSeconds(1.0f);
         //Instantiate(explosionParticle);
-        yield return new WaitForSeconds(1.0f);
+        GetComponent<PlayerAiming>().destroyParticle();
         Destroy(this.gameObject);
         yield return null;
     }
@@ -55,6 +59,7 @@ public class EnergyContainerPlayer : EnergyContainer {
     IEnumerator powerdownAnimation()
     {
         yield return new WaitForSeconds(1.0f);
+        GetComponent<PlayerAiming>().destroyParticle();
         Destroy(this.gameObject);
         yield return null;
     }
