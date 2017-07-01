@@ -9,12 +9,15 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     public GameManager m_GM;
 
-    public Image[] m_ImageBar;
+    public EnergyContainer[] containers;
+
+    public UiBar[] m_ImageBar;
 
 
     // Use this for initialization
     void Start()
     {
+        containers = new EnergyContainer[4];
        // m_ImageBar = new Image[4];
     }
 
@@ -25,8 +28,10 @@ public class UiManager : MonoBehaviour
         {
             if (m_GM.Players[i] != null)
             {
-                m_ImageBar[i].GetComponent<UiBar>().SetHealthBar(m_GM.Players[i].GetComponent<EnergyContainer>().energy,
-                                                                m_GM.Players[i].GetComponent<EnergyContainer>().maxEnergy);
+                if (containers[i] != null)
+                {
+                    m_ImageBar[i].SetHealthBar(containers[i].energy, containers[i].maxEnergy);
+                }
             }
         }
     }

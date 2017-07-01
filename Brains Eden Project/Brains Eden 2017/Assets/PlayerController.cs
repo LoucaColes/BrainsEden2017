@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour {
                 }
                
                 
-                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger <= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
+                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
             }
             else
             {

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     GameObject PlayerPrefab;
+    [SerializeField]
+    UiManager UI;
 
     public GameState state = GameState.Selection;
 
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour {
                     Players[i - 1].transform.position = PlayersStartingPoints[i - 1].position;
                     Players[i - 1].transform.rotation = PlayersStartingPoints[i - 1].rotation;
                     Players[i - 1].GetComponent<PlayerController>().playerNumber = i;
+                    UI.containers[i-1] = Players[i-1].GetComponent<EnergyContainerPlayer>();
                 }
                 else
                 {
