@@ -10,23 +10,38 @@ public class UiManager : MonoBehaviour
     public GameManager m_GM;
 
     public Image[] m_ImageBar;
+    public Image[] m_images;
 
 
     // Use this for initialization
     void Start()
     {
-       // m_ImageBar = new Image[4];
+        // m_ImageBar = new Image[4];
+        for (int i = 0; i < m_images.Length; i++)
+        {
+           // m_images[i].gameObject.SetActive(false);
+            
+            
+        }
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < m_GM.Players.Length; i++)
+        if (m_GM != null)
         {
-            if (m_GM.Players[i] != null)
+            for (int i = 0; i < m_GM.Players.Length; i++)
             {
-                m_ImageBar[i].GetComponent<UiBar>().SetHealthBar(m_GM.Players[i].GetComponent<EnergyContainer>().energy,
-                                                                m_GM.Players[i].GetComponent<EnergyContainer>().maxEnergy);
+                if (m_GM.Players[i] != null)
+                {
+
+                    m_ImageBar[i].GetComponent<UiBar>().SetHealthBar(m_GM.Players[i].GetComponent<EnergyContainer>().energy,
+                                                                    m_GM.Players[i].GetComponent<EnergyContainer>().maxEnergy);
+                    m_images[i].gameObject.SetActive(true);
+                }
+               // else
+                  //  m_images[i].gameObject.SetActive(false);
             }
         }
     }
