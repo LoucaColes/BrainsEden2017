@@ -8,15 +8,14 @@ public class UiBar : MonoBehaviour
 
     public Image m_bar;
     public float m_Max = 100f;
-    
-    public float m_current = 0f;
+
+    public float m_current = 100f;
 
 
     // Use this for initialization
     void Start()
     {
-        m_current = m_Max;
-
+        //m_current = m_Max;
     }
 
 
@@ -24,13 +23,13 @@ public class UiBar : MonoBehaviour
     {
 
         Decreacebar();
-        
+
     }
 
-   void SetHealthBar(float _health)
+    void SetHealthBar(float _health)
     {
         m_current = _health;
-        Decreacebar();
+        //Decreacebar();
     }
 
 
@@ -43,12 +42,10 @@ public class UiBar : MonoBehaviour
 
     void SetBar(float _amount)
     {
-        if(_amount > 1 || _amount < 0)
+        if (_amount > 1 || _amount < 0)
         {
-            print("reurn");
             return;
         }
-        print(_amount);
         m_bar.fillAmount = _amount;
     }
 }
