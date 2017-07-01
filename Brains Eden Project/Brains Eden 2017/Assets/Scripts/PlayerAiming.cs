@@ -21,6 +21,9 @@ public class PlayerAiming : MonoBehaviour
     private float m_bezierTime;
     private int PlayerNum;
 
+    [SerializeField]
+    private GameObject lightning;
+
     // Use this for initialization
     private void Start()
     {
@@ -67,6 +70,9 @@ public class PlayerAiming : MonoBehaviour
             else
             {
                 Vector3 t_midPoint = t_hit.point; //m_rayPoint.position + (t_dir * m_rayDistance);
+                lightning.GetComponent<LightningSpawner>().enabled = true;
+                lightning.GetComponent<LightningSpawner>().endPoint = m_testPlayer.position;
+                lightning.GetComponent<LightningSpawner>().midPoint = t_midPoint;
                 if (_reverse)
                 {
                     if (m_currParticle)
@@ -118,7 +124,7 @@ public class PlayerAiming : MonoBehaviour
         return null;
     }
 
-    private Vector3 Bezier(Vector3 _initPoint, Vector3 _midPoint, Vector3 _endPoint, float _time)
+    static public Vector3 Bezier(Vector3 _initPoint, Vector3 _midPoint, Vector3 _endPoint, float _time)
     {
         Vector3 t_bezierTime = new Vector3();
         t_bezierTime.x = Mathf.Pow(1 - _time, 2) * _initPoint.x + (1 - _time) * 2 * _time * _midPoint.x + _time * _time * _endPoint.x;
@@ -142,5 +148,7 @@ public class PlayerAiming : MonoBehaviour
             Destroy(m_currParticle);
             m_currParticle = null;
         }
+        lightning.GetComponent<LightningSpawner>().enabled = false;
     }
+
 }
