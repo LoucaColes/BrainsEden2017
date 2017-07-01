@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
         switch(playerNumber)
         {
             case 1:
-                playerColor = Color.red;
+                playerColor = Color.blue;
                 break;
             case 2:
                 playerColor = Color.green;
@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviour {
                 playerColor = Color.red;
                 break;
             case 4:
-                playerColor = Color.red;
+                playerColor = Color.yellow;
                 break;
         }
-        
+        GetComponent<Renderer>().material.color = playerColor;
 	}
 	
 	// Update is called once per frame
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour {
                 }
                
                 
-                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
+                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger <= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
             }
             else
             {

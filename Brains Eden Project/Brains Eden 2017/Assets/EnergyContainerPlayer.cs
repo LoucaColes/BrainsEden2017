@@ -7,6 +7,9 @@ public class EnergyContainerPlayer : EnergyContainer {
 
     bool alive;
 
+    [SerializeField]
+    protected GameObject batteryPack;
+
     Renderer playerRenderer;
     [SerializeField]
     GameObject sparksParticle;
@@ -22,7 +25,7 @@ public class EnergyContainerPlayer : EnergyContainer {
     protected override void Update()
     {
         base.Update();
-        playerRenderer.material.color = new Color(1-(energy/maxEnergy), (energy / maxEnergy), 0);
+        batteryPack.GetComponent<Renderer>().material.color = new Color(1-(energy/maxEnergy), (energy / maxEnergy), 0);
     }
 
     protected override void energyFull()

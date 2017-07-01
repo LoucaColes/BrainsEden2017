@@ -40,7 +40,7 @@ public class PlayerAiming : MonoBehaviour
     public void ActivateBezier(bool _reverse, float _strength)
     {
         Vector3 t_dir = m_rayPoint.forward;
-        if (m_bezierTime == 0)
+        if (m_bezierTime == 0 && m_currParticle == null)
         {
             m_currParticle = (GameObject)Instantiate(m_particle, m_rayPoint.position, Quaternion.identity);
         }
