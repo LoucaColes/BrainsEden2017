@@ -33,6 +33,7 @@ public class SceneLoader : MonoBehaviour
 
     public void ExitGame()
     {
+        print("quitting");
         Application.Quit();
     }
 }
