@@ -34,30 +34,17 @@ public class PlayerAiming : MonoBehaviour
     private void Update()
     {
         Vector3 t_dir = m_rayPoint.forward;
-        if (Input.GetKey(KeyCode.Space))
-        {
-            ActivateBezier(false, 0.5f);
-        }
-        else if (Input.GetKey(KeyCode.KeypadEnter))
-        {
-            ActivateBezier(true, 0.1f);
-        }
-        else
-        {
-            destroyParticle();
-        }
-
         Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
     }
 
     public void ActivateBezier(bool _reverse, float _strength)
     {
         Vector3 t_dir = m_rayPoint.forward;
-        if (m_bezierTime == 0)
+        if (m_bezierTime == 0 && m_currParticle == null)
         {
             m_currParticle = (GameObject)Instantiate(m_particle, m_rayPoint.position, Quaternion.identity);
         }
-        m_bezierTime += (_strength / 10f);
+        m_bezierTime += (_strength / 20.0f);
         if (m_bezierTime >= 1)
         {
             m_bezierTime = 0;
@@ -136,17 +123,20 @@ public class PlayerAiming : MonoBehaviour
         return t_bezierTime;
     }
 
-    private void destroyParticle()
+    public void destroyParticle()
     {
-        foreach (Transform Child in m_currParticle.transform)
+        if (m_currParticle != null)
         {
-            if (Child.gameObject.tag == "DontDie")
+            foreach (Transform Child in m_currParticle.transform)
             {
-                Child.parent = null;
-                Child.gameObject.GetComponent<SelfDestruct>().deathTimerStart();
+                if (Child.gameObject.tag == "DontDie")
+                {
+                    Child.parent = null;
+                    Child.gameObject.GetComponent<SelfDestruct>().deathTimerStart();
+                }
             }
+            Destroy(m_currParticle);
+            m_currParticle = null;
         }
-        Destroy(m_currParticle);
-        m_currParticle = null;
     }
 }

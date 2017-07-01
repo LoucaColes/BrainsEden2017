@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
         switch(playerNumber)
         {
             case 1:
-                playerColor = Color.red;
+                playerColor = Color.blue;
                 break;
             case 2:
                 playerColor = Color.green;
@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviour {
                 playerColor = Color.red;
                 break;
             case 4:
-                playerColor = Color.red;
+                playerColor = Color.yellow;
                 break;
         }
-        
+        GetComponent<Renderer>().material.color = playerColor;
 	}
 	
 	// Update is called once per frame
@@ -42,16 +42,16 @@ public class PlayerController : MonoBehaviour {
         
         if (Input.GetJoystickNames()[playerNumber-1].Contains("Xbox One"))
         {
-            pushTrigger = (Input.GetAxis("RTrigger" + playerNumber)+1)/2;
+            pushTrigger = (Input.GetAxis("RTrigger" + playerNumber)+1);
         }
         else
         {
-            pushTrigger = Input.GetAxis("RTrigger" + playerNumber);
+            pushTrigger = -(Input.GetAxis("LTrigger" + playerNumber));
         }
 
         if (Input.GetJoystickNames()[playerNumber-1].Contains("Xbox One"))
         {
-            pullTrigger = (Input.GetAxis("LTrigger" + playerNumber) + 1) / 2;
+            pullTrigger = (Input.GetAxis("LTrigger" + playerNumber) + 1);
         }
         else
         {
@@ -76,8 +76,16 @@ public class PlayerController : MonoBehaviour {
                 }
                
                 
-                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
+                GetComponent<PlayerAiming>().ActivateBezier(pullTrigger <= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
             }
+            else
+            {
+                GetComponent<PlayerAiming>().destroyParticle();
+            }
+        }
+        else
+        {
+            GetComponent<PlayerAiming>().destroyParticle();
         }
     }
 }

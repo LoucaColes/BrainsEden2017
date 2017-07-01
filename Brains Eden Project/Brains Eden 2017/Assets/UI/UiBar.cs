@@ -16,28 +16,24 @@ public class UiBar : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //m_current = s_Max;
+        m_bar = gameObject.GetComponent<Image>();
     }
 
 
     void Update()
     {
-
         Decreacebar();
-
     }
 
     public void SetHealthBar(float _health, float _max)
     {
         m_current = _health;
         m_Max = _max;
-        //Decreacebar();
     }
 
 
     void Decreacebar()
     {
-        //m_current -= _dec;
         float m_Val = m_current / m_Max;
         SetBar(m_Val);
     }
@@ -45,9 +41,7 @@ public class UiBar : MonoBehaviour
     void SetBar(float _amount)
     {
         if (_amount > 1 || _amount < 0)
-        {
             return;
-        }
         m_bar.fillAmount = _amount;
     }
 }
