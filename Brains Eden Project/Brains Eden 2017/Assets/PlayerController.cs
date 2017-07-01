@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour {
 
             if (other != null)
             {
-                GetComponent<EnergyTransfer>().pushTo(other.GetComponent<EnergyContainer>(), pushTrigger);
-                GetComponent<EnergyTransfer>().drainFrom(other.GetComponent<EnergyContainer>(), pullTrigger);
+                GetComponent<EnergyTransfer>().pushTo(other.transform.parent.GetComponent<EnergyContainer>(), pushTrigger);
+                GetComponent<EnergyTransfer>().drainFrom(other.transform.parent.GetComponent<EnergyContainer>(), pullTrigger);
                 GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger/*, Mathf.Abs(pushTrigger - pullTrigger)*/);
             }
         }

@@ -17,14 +17,20 @@ public class GameManager : MonoBehaviour {
     public GameState state = GameState.Selection;
 
     public GameObject[] Players;
+    protected bool[] playersReady;
 
     public int maxPlayers;
 
 	// Use this for initialization
 	void Start () {
         DontDestroyOnLoad(this);
+        Players = new GameObject[maxPlayers];
+        playersReady = new bool[maxPlayers];
 
-
+        for (int i = 0; i < playersReady.Length; i++)
+        {
+            playersReady[i] = false;
+        }
 	}
 	
 	// Update is called once per frame
@@ -46,14 +52,21 @@ public class GameManager : MonoBehaviour {
 
     void UpdateSelection()
     {
-        for (int i = 0; i < maxPlayers; i++)
+        for (int i = 0; i < Mathf.Min(maxPlayers, Input.GetJoystickNames().Length); i++)
         {
-            if (Input.GetButtonDown("joystick " + i + " button 0"))
+            if (Input.GetButtonDown("joystick " + i + " button 0") )
             {
-
+                if (Players[i] == null)
+                {
+                    Players[i] = Instantiate(PlayerPrefab);
+                }
+                else
+                {
+                    //Set ready
+                    playersReady[i] = !playersReady[i];
+                }
             }
         }
-
     }
 
     void UpdateGame()
