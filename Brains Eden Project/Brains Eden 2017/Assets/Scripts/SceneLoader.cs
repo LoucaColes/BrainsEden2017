@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader m_sceneLoader;
-    public string[] m_sceneNames;
 
     // Use this for initialization
     private void Awake()
@@ -23,21 +23,16 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadMainMenu()
     {
-    }
-
-    public void LoadPlayerSelect()
-    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void LoadArena1()
     {
+        SceneManager.LoadScene("ArenaTest");
     }
 
-    public void LoadArena2()
+    public void ExitGame()
     {
-    }
-
-    public void LoadArena3()
-    {
+        Application.Quit();
     }
 }
