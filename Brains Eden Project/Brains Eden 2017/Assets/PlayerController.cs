@@ -60,11 +60,12 @@ public class PlayerController : MonoBehaviour {
 
         if (pullTrigger > 0 || pushTrigger > 0)
         {
-            GameObject other = GetComponent<PlayerAiming>().GetTarget();
+            RaycastHit tmp;
+            GameObject other = GetComponent<PlayerAiming>().GetTarget(out tmp);
 
             if (other != null)
             {
-                if (other.transform.parent != null)
+                if (other.transform.parent != null && other.transform.parent.GetComponent<EnergyContainer>() != null)
                 {
                     GetComponent<EnergyTransfer>().pushTo(other.transform.parent.GetComponent<EnergyContainer>(), pushTrigger / 5);
                     GetComponent<EnergyTransfer>().drainFrom(other.transform.parent.GetComponent<EnergyContainer>(), pullTrigger / 5);
