@@ -42,16 +42,16 @@ public class PlayerController : MonoBehaviour {
         
         if (Input.GetJoystickNames()[playerNumber-1].Contains("Xbox One"))
         {
-            pushTrigger = (Input.GetAxis("RTrigger" + playerNumber)+1)/2;
+            pushTrigger = (Input.GetAxis("RTrigger" + playerNumber)+1);
         }
         else
         {
-            pushTrigger = Input.GetAxis("RTrigger" + playerNumber);
+            pushTrigger = -(Input.GetAxis("LTrigger" + playerNumber));
         }
 
         if (Input.GetJoystickNames()[playerNumber-1].Contains("Xbox One"))
         {
-            pullTrigger = (Input.GetAxis("LTrigger" + playerNumber) + 1) / 2;
+            pullTrigger = (Input.GetAxis("LTrigger" + playerNumber) + 1);
         }
         else
         {
@@ -78,6 +78,14 @@ public class PlayerController : MonoBehaviour {
                 
                 GetComponent<PlayerAiming>().ActivateBezier(pullTrigger >= pushTrigger, (Mathf.Abs(pushTrigger - pullTrigger)));
             }
+            else
+            {
+                GetComponent<PlayerAiming>().destroyParticle();
+            }
+        }
+        else
+        {
+            GetComponent<PlayerAiming>().destroyParticle();
         }
     }
 }
