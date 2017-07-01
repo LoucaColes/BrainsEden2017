@@ -17,7 +17,7 @@ public class UI : MonoBehaviour
     {
         for (int i = 0; i < m_BaseImage.Length; i++)
         {
-            m_BaseImage[i].color.a = new Color(m_BaseImage[i].color.r, m_BaseImage[i].color.g, m_BaseImage[i].color.b, 100.00f);
+            //m_BaseImage[i].color = new Color(m_BaseImage[i].color.r, m_BaseImage[i].color.g, m_BaseImage[i].color.b, 100.00f);
            /* if (m_BaseImage[i])
             {
                 worldScreenHeight = (float)(m_Cam.orthographicSize * 4.0);
