@@ -44,8 +44,7 @@ public class PlayerAiming : MonoBehaviour
         }
         else
         {
-            Destroy(m_currParticle);
-            m_currParticle = null;
+            destroyParticle();
         }
 
         Debug.DrawRay(m_rayPoint.position, t_dir * m_rayDistance, Color.green);
@@ -62,8 +61,7 @@ public class PlayerAiming : MonoBehaviour
         if (m_bezierTime >= 1)
         {
             m_bezierTime = 0;
-            Destroy(m_currParticle);
-            m_currParticle = null;
+            destroyParticle();
         }
 
         if (GetTarget() != null)
@@ -73,8 +71,7 @@ public class PlayerAiming : MonoBehaviour
             if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) > m_rayDistance)
             {
                 m_testPlayer = null;
-                Destroy(m_currParticle);
-                m_currParticle = null;
+                destroyParticle();
             }
             else
             {
@@ -98,8 +95,7 @@ public class PlayerAiming : MonoBehaviour
         }
         else
         {
-            Destroy(m_currParticle);
-            m_currParticle = null;
+            destroyParticle();
         }
     }
 
@@ -113,9 +109,18 @@ public class PlayerAiming : MonoBehaviour
             if (t_hit.collider.tag == "ColRadius")
             {
                 m_testPlayer = t_hit.collider.transform;
-                if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) < m_rayDistance)
+
+                RaycastHit t_wallCheck;
+                Ray t_wallRay = new Ray(m_rayPoint.position, t_dir);
+                float t_wallDist = Vector3.Distance(m_rayPoint.position, m_testPlayer.position);
+                int t_wallMask = 1 << 12;
+
+                if (!Physics.Raycast(t_wallRay, out t_wallCheck, t_wallDist, t_wallMask))
                 {
-                    return m_testPlayer.gameObject;
+                    if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) < m_rayDistance)
+                    {
+                        return m_testPlayer.gameObject;
+                    }
                 }
             }
         }
@@ -129,5 +134,19 @@ public class PlayerAiming : MonoBehaviour
         t_bezierTime.y = _initPoint.y;
         t_bezierTime.z = Mathf.Pow(1 - _time, 2) * _initPoint.z + (1 - _time) * 2 * _time * _midPoint.z + _time * _time * _endPoint.z;
         return t_bezierTime;
+    }
+
+    private void destroyParticle()
+    {
+        foreach (Transform Child in m_currParticle.transform)
+        {
+            if (Child.gameObject.tag == "DontDie")
+            {
+                Child.parent = null;
+                Child.gameObject.GetComponent<SelfDestruct>().deathTimerStart();
+            }
+        }
+        Destroy(m_currParticle);
+        m_currParticle = null;
     }
 }
