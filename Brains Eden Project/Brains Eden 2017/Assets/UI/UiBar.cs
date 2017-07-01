@@ -8,14 +8,15 @@ public class UiBar : MonoBehaviour
 
     public Image m_bar;
     public float m_Max = 100f;
-
     public float m_current = 100f;
+
+
 
 
     // Use this for initialization
     void Start()
     {
-        //m_current = m_Max;
+        //m_current = s_Max;
     }
 
 
@@ -26,9 +27,10 @@ public class UiBar : MonoBehaviour
 
     }
 
-    void SetHealthBar(float _health)
+    public void SetHealthBar(float _health, float _max)
     {
         m_current = _health;
+        m_Max = _max;
         //Decreacebar();
     }
 
