@@ -94,12 +94,16 @@ public class PlayerAiming : MonoBehaviour
         RaycastHit t_hit;
         Vector3 t_dir = m_rayPoint.forward;
 
-        if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit, Mathf.Infinity, m_layerMask))
+        if (Physics.Raycast(m_rayPoint.position, t_dir, out t_hit, m_rayDistance, m_layerMask))
         {
+
             if (t_hit.collider.tag == "ColRadius")
             {
                 m_testPlayer = t_hit.collider.transform;
-                return m_testPlayer.gameObject;
+                if (Vector3.Distance(m_rayPoint.position, m_testPlayer.position) < m_rayDistance)
+                {
+                    return m_testPlayer.gameObject;
+                }
             }
         }
         return null;
