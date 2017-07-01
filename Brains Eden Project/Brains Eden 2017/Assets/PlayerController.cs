@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     [SerializeField]
-    int playerNumber = 0;
+    public int playerNumber = 0;
     // 0 = faulty, players = 1-4
 
     private float pushTrigger;
